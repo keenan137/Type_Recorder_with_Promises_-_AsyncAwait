@@ -1,0 +1,1 @@
+Records and animates your typing and plays it back, including your mistakes and deletions. This project makes use of Promises and Async/Await to playback your typing as I was testing my knowledge on these concepts. In the future I will look into more efficient ways for playback (maybe GSAP)
