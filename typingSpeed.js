@@ -22,10 +22,11 @@ const nextTime = () => {
 	start = endTime;
 };
 
-const automaticPlayback = async () => {
+const automaticPlayback = async function () {
 	console.log("Playing back text...");
 	for (let x = 0; x < timeKeeper.length; x++) {
 		let i = timeKeeper[x];
+		console.log(i);
 		try {
 			await runPlaybackForCharacter(i.value, i.key);
 		} catch (error) {
@@ -87,6 +88,9 @@ const startRecording = () => {
 };
 
 const stopRecording = () => {
+	// typedTextArea.blur();
+	// console.log("blurred typedTextArea");
+
 	recordingBtn.style.backgroundColor = "green";
 	recordingBtn.innerHTML = "Start Recording";
 	automaticPlayback();
@@ -97,10 +101,13 @@ const stopRecording = () => {
 
 recordingBtn.addEventListener("click", (e) => {
 	e.preventDefault();
+	// typedTextArea.blur();
 
 	if (recordingBtn.innerHTML === "Start Recording") {
+		console.log("Start Recording");
 		startRecording();
 	} else if (recordingBtn.innerHTML === "Stop Recording") {
+		console.log("Stop Recording");
 		stopRecording();
 	}
 });
@@ -114,8 +121,8 @@ typedTextArea.addEventListener("focusout", () => {
 	stopRecording();
 });
 typedTextArea.addEventListener("click", () => {
-	startRecording();
 	console.log("clicked");
+	startRecording();
 });
 
 typedTextArea.addEventListener("keydown", (e) => {
@@ -140,5 +147,5 @@ typedTextArea.addEventListener("keydown", (e) => {
 
 playBtn.addEventListener("click", () => {
 	recordedTextArea.value = "";
-	automaticPlayback();
+	stopRecording();
 });
