@@ -88,9 +88,6 @@ const startRecording = () => {
 };
 
 const stopRecording = () => {
-	// typedTextArea.blur();
-	// console.log("blurred typedTextArea");
-
 	recordingBtn.style.backgroundColor = "green";
 	recordingBtn.innerHTML = "Start Recording";
 	automaticPlayback();
@@ -101,14 +98,14 @@ const stopRecording = () => {
 
 recordingBtn.addEventListener("click", (e) => {
 	e.preventDefault();
-	// typedTextArea.blur();
-
-	if (recordingBtn.innerHTML === "Start Recording") {
-		console.log("Start Recording");
-		startRecording();
-	} else if (recordingBtn.innerHTML === "Stop Recording") {
-		console.log("Stop Recording");
-		stopRecording();
+	if (typedTextArea.value === "") {
+		if (recordingBtn.innerHTML === "Start Recording") {
+			console.log("Start Recording");
+			startRecording();
+		} else if (recordingBtn.innerHTML === "Stop Recording") {
+			console.log("Stop Recording");
+			stopRecording();
+		}
 	}
 });
 
