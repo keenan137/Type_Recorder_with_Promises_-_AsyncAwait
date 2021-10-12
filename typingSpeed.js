@@ -1,5 +1,4 @@
-/* ISSUES:
-	Handle edge cases of adding keys that should not be displayed (handled inside typedTextArea->keydown)
+/* ISSUES/FEATURES:
 	Play button can change to stop button which can be used to stop/erase text animation. OR add pause and stop buttons.
 */
 
@@ -85,8 +84,10 @@ const startRecording = () => {
 	playBtn.style.backgroundColor = "green";
 	recordingBtn.innerHTML = "Stop Recording";
 	recordingBtn.style.backgroundColor = "red";
+	typedAreaFocusOut = false;
 };
 
+let typedAreaFocusOut = false;
 const stopRecording = () => {
 	recordingBtn.style.backgroundColor = "green";
 	recordingBtn.innerHTML = "Start Recording";
@@ -98,7 +99,7 @@ const stopRecording = () => {
 
 recordingBtn.addEventListener("click", (e) => {
 	e.preventDefault();
-	if (typedTextArea.value === "") {
+	if (!typedAreaFocusOut) {
 		if (recordingBtn.innerHTML === "Start Recording") {
 			console.log("Start Recording");
 			startRecording();
@@ -106,6 +107,8 @@ recordingBtn.addEventListener("click", (e) => {
 			console.log("Stop Recording");
 			stopRecording();
 		}
+	} else {
+		typedAreaFocusOut = false;
 	}
 });
 
@@ -113,8 +116,10 @@ typedTextArea.addEventListener("focusin", () => {
 	console.log("typeTextArea: focus received.");
 	startTime();
 });
+
 typedTextArea.addEventListener("focusout", () => {
 	console.log("typeTextArea: focus lost.");
+	typedAreaFocusOut = true;
 	stopRecording();
 });
 typedTextArea.addEventListener("click", () => {
