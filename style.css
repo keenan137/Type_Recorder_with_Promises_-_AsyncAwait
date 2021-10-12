@@ -2,6 +2,11 @@
 	padding: 0%;
 	margin: 0%;
 	box-sizing: border-box;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+h1 {
+	margin: 1.5rem 0;
 }
 
 .container {
@@ -19,6 +24,10 @@
 	flex-flow: column nowrap;
 	align-items: center;
 	justify-content: space-evenly;
+}
+
+label {
+	font-size: 22px;
 }
 
 textarea {
