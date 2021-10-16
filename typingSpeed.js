@@ -84,13 +84,10 @@ const startRecording = () => {
 	playBtn.style.backgroundColor = "green";
 	recordingBtn.innerHTML = "Stop Recording";
 	recordingBtn.style.backgroundColor = "red";
-	typedAreaFocusOut = false;
 };
 
-let typedAreaFocusOut = false;
+let typedAreaLostFocus = false;
 const stopRecording = () => {
-	recordingBtn.style.backgroundColor = "green";
-	recordingBtn.innerHTML = "Start Recording";
 	automaticPlayback();
 	playBtn.disabled = false;
 	playBtn.innerHTML = "Playing";
@@ -99,27 +96,56 @@ const stopRecording = () => {
 
 recordingBtn.addEventListener("click", (e) => {
 	e.preventDefault();
-	if (!typedAreaFocusOut) {
-		if (recordingBtn.innerHTML === "Start Recording") {
+	if (!typedAreaLostFocus) {
+		if (recordingBtn.innerHTML === "Reset") {
+			recordingBtn.style.backgroundColor = "green";
+			recordingBtn.innerHTML = "Start Recording";
+			typedTextArea.value = "";
+			recordedTextArea.value = "";
+			typedTextArea.disabled = false;
+			playBtn.disabled = true;
+		} else if (recordingBtn.innerHTML === "Start Recording") {
 			console.log("Start Recording");
 			startRecording();
 		} else if (recordingBtn.innerHTML === "Stop Recording") {
 			console.log("Stop Recording");
+			recordingBtn.innerHTML = "Reset";
+			typedTextArea.value = "";
+			recordedTextArea.value = "";
+			typedTextArea.disabled = false;
 			stopRecording();
 		}
 	} else {
-		typedAreaFocusOut = false;
+		if (recordingBtn.innerHTML === "Reset") {
+			if (recordedTextArea.value !== "") {
+				recordingBtn.style.backgroundColor = "green";
+				recordingBtn.innerHTML = "Start Recording";
+			}
+			typedTextArea.value = "";
+			recordedTextArea.value = "";
+			typedTextArea.disabled = false;
+			playBtn.disabled = true;
+		}
+		typedAreaLostFocus = false;
 	}
 });
 
 typedTextArea.addEventListener("focusin", () => {
 	console.log("typeTextArea: focus received.");
+	typedAreaLostFocus = false;
 	startTime();
 });
 
 typedTextArea.addEventListener("focusout", () => {
 	console.log("typeTextArea: focus lost.");
-	typedAreaFocusOut = true;
+	if (recordingBtn.innerHTML === "Stop Recording") {
+		recordingBtn.innerHTML = "Reset";
+		typedTextArea.value = "";
+		recordedTextArea.value = "";
+		typedTextArea.disabled = false;
+		playBtn.disabled = true;
+	}
+	typedAreaLostFocus = true;
 	stopRecording();
 });
 typedTextArea.addEventListener("click", () => {
